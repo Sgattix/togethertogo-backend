@@ -1,0 +1,202 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String  
+  name      String
+  role      UserRole @default(VOLUNTEER)
+  accountStatus AccountStatus @default(ACTIVE)
+  deletedAt DateTime?
+  emailVerified Boolean @default(false)
+  verificationToken String? @unique
+  verificationTokenExpiresAt DateTime?
+  resetToken String? @unique
+  resetTokenExpiresAt DateTime?
+  emailChangeToken String? @unique
+  emailChangeTokenExpiresAt DateTime?
+  pendingEmail String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sprints        Sprint[]   @relation("CoordinatedSprints")
+  sessions       Session[]
+  approvals      ApprovalHistory[]
+  notifications  Notification[]
+  volunteer      Volunteer?
+  twoFactorAuth  TwoFactorAuth?
+}
+
+enum UserRole {
+  ADMIN
+  COORDINATOR
+  VOLUNTEER
+}
+
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+model Session {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceInfo      String?  @db.Text // JSON string with browser, OS, device type
+  ipAddress       String?
+  location        String?  @db.Text // JSON string with city, country, timezone
+  lastActivityAt  DateTime @default(now())
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Sprint {
+  id                    String   @id @default(cuid())
+  title                 String
+  description           String?
+  location              String   
+  progressStatus        String   @default("planned") @map("status")
+  governmentAuthorizationStatus String @default("reported") @map("authorizationStatus")
+  platformAuthorizationStatus   String @default("draft")
+  coordinatorId         String
+  coordinator           User     @relation("CoordinatedSprints", fields: [coordinatorId], references: [id])
+  startDate             DateTime
+  endDate               DateTime
+  progress              Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  tasks                 Task[]
+  approvalHistory       ApprovalHistory[]
+
+  @@index([coordinatorId])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      String   @default("pending")
+  priority    String   @default("medium")
+  dueDate     DateTime
+  assignedTo  String?
+  sprintId    String
+  sprint      Sprint   @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  comments    TaskComment[]
+  activities  TaskActivity[]
+
+  @@index([sprintId])
+  @@index([assignedTo])
+}
+
+model TaskComment {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    String
+  userName  String   
+  userRole  String   
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([taskId])
+  @@index([userId])
+}
+
+model TaskActivity {
+  id          String   @id @default(cuid())
+  taskId      String
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId      String?
+  userName    String?
+  action      String   
+  fieldName   String?  
+  oldValue    String?  @db.Text
+  newValue    String?  @db.Text
+  description String   @db.Text
+  createdAt   DateTime @default(now())
+
+  @@index([taskId])
+  @@index([userId])
+}
+
+model Volunteer {
+  id              String   @id @default(cuid())
+  name            String
+  email           String   @unique
+  userId          String?  @unique  // Link to User if the volunteer has registered
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  skills          String?
+  reputation      Int      @default(0)
+  completedTasks  Int      @default(0)
+  joinedDate      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model ApprovalHistory {
+  id            String   @id @default(cuid())
+  sprintId      String
+  sprint        Sprint   @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  requestedBy   String
+  requestedByUser User   @relation(fields: [requestedBy], references: [id])
+  status        String   @default("pending")
+  notes         String?
+  approvedAt    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([sprintId])
+  @@index([requestedBy])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // "task_assigned", "task_updated", "approval_request", "comment", etc.
+  title     String
+  message   String   @db.Text
+  relatedTaskId String?  // Link to related task if applicable
+  relatedSprintId String? // Link to related sprint if applicable
+  isRead    Boolean  @default(false)
+  metadata  String?  @db.Text // JSON string for additional data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model TwoFactorAuth {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isEnabled         Boolean  @default(false)
+  totpSecret        String?  // Encrypted TOTP secret (base32 encoded)
+  backupCodes       String?  @db.Text // JSON array of backup codes (hashed)
+  backupCodesUsed   String?  @db.Text // JSON array of used backup code hashes
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+}

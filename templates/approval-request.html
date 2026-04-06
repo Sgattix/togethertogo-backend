@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Sprint Approval Request - TogetherToGo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fbfcfb;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+      }
+      .email-wrapper {
+        background-color: #fbfcfb;
+        padding: 40px 20px;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .header {
+        background-color: #768f75;
+        padding: 40px 30px;
+        text-align: center;
+      }
+      .logo {
+        font-size: 28px;
+        font-weight: 700;
+        color: #f1f5f1;
+        margin: 0;
+        letter-spacing: -0.5px;
+      }
+      .content {
+        padding: 40px 30px;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #111511;
+        margin: 0 0 24px 0;
+      }
+      .text {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #374151;
+        margin: 0 0 16px 0;
+      }
+      .info-box {
+        background-color: #f0f4f0;
+        border-left: 4px solid #768f75;
+        border-radius: 6px;
+        padding: 20px;
+        margin: 24px 0;
+      }
+      .info-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+      .info-value {
+        font-size: 16px;
+        color: #111511;
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+      .button {
+        display: inline-block;
+        background-color: #768f75;
+        color: #f1f5f1;
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        margin: 24px 0;
+      }
+      .alert-badge {
+        display: inline-block;
+        background-color: #fef3c7;
+        color: #92400e;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .footer {
+        background-color: #f9fafb;
+        padding: 30px;
+        text-align: center;
+        border-top: 1px solid #e5e7eb;
+      }
+      .footer-text {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 6px 0;
+      }
+      .footer-brand {
+        font-weight: 600;
+        color: #768f75;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <table
+        class="email-container"
+        role="presentation"
+        width="600"
+        cellspacing="0"
+        cellpadding="0"
+        border="0"
+        align="center"
+      >
+        <!-- Header -->
+        <tr>
+          <td class="header">
+            <h1 class="logo">TogetherToGo</h1>
+          </td>
+        </tr>
+        <!-- Content -->
+        <tr>
+          <td class="content">
+            <span class="alert-badge">⏰ Action Required</span>
+            <h2 class="title">New Sprint Approval Request</h2>
+            <p class="text">
+              A coordinator has submitted a new sprint for your review and
+              approval. Please review the details below and take action.
+            </p>
+            <div class="info-box">
+              <div class="info-label">Coordinator</div>
+              <div class="info-value">{{coordinatorName}}</div>
+              <div class="info-label">Sprint Title</div>
+              <div class="info-value" style="margin-bottom: 0">
+                {{sprintTitle}}
+              </div>
+            </div>
+            <p class="text">
+              Click the button below to review the full sprint details and
+              approve or reject the request.
+            </p>
+            <table
+              role="presentation"
+              width="100%"
+              cellspacing="0"
+              cellpadding="0"
+              border="0"
+            >
+              <tr>
+                <td align="center">
+                  <a href="{{approvalLink}}" class="button"
+                    >Review Sprint Request</a
+                  >
+                </td>
+              </tr>
+            </table>
+            <p
+              class="text"
+              style="font-size: 13px; color: #9ca3af; text-align: center"
+            >
+              This sprint is pending your approval before it can be activated.
+            </p>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td class="footer">
+            <p class="footer-brand">TogetherToGo</p>
+            <p class="footer-text">
+              Connecting communities through meaningful collaboration
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

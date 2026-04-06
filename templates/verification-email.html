@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Verify Your Email - TogetherToGo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fbfcfb;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+      }
+      .email-wrapper {
+        background-color: #fbfcfb;
+        padding: 40px 20px;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .header {
+        background-color: #768f75;
+        padding: 40px 30px;
+        text-align: center;
+      }
+      .logo {
+        font-size: 28px;
+        font-weight: 700;
+        color: #f1f5f1;
+        margin: 0;
+        letter-spacing: -0.5px;
+      }
+      .content {
+        padding: 40px 30px;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #111511;
+        margin: 0 0 24px 0;
+      }
+      .text {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #374151;
+        margin: 0 0 16px 0;
+      }
+      .button {
+        display: inline-block;
+        background-color: #768f75;
+        color: #f1f5f1;
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        margin: 24px 0;
+        transition: background-color 0.2s;
+      }
+      .button:hover {
+        background-color: #5e7a5d;
+      }
+      .code-box {
+        background-color: #f9fafb;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 24px;
+        text-align: center;
+        margin: 24px 0;
+      }
+      .code {
+        font-size: 36px;
+        font-weight: 700;
+        color: #768f75;
+        letter-spacing: 8px;
+        font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      }
+      .divider {
+        height: 1px;
+        background-color: #e5e7eb;
+        margin: 32px 0;
+      }
+      .footer {
+        background-color: #f9fafb;
+        padding: 30px;
+        text-align: center;
+        border-top: 1px solid #e5e7eb;
+      }
+      .footer-text {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 6px 0;
+      }
+      .footer-brand {
+        font-weight: 600;
+        color: #768f75;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-wrapper">
+      <table
+        class="email-container"
+        role="presentation"
+        width="600"
+        cellspacing="0"
+        cellpadding="0"
+        border="0"
+        align="center"
+      >
+        <!-- Header -->
+        <tr>
+          <td class="header">
+            <h1 class="logo">TogetherToGo</h1>
+          </td>
+        </tr>
+        <!-- Content -->
+        <tr>
+          <td class="content">
+            <h2 class="title">Verify Your Email Address</h2>
+            <p class="text">Hi {{name}},</p>
+            <p class="text">
+              Thank you for registering with TogetherToGo! We're excited to have
+              you join our community. To complete your registration, please
+              verify your email address.
+            </p>
+            <table
+              role="presentation"
+              width="100%"
+              cellspacing="0"
+              cellpadding="0"
+              border="0"
+            >
+              <tr>
+                <td align="center">
+                  <a href="{{verificationLink}}" class="button"
+                    >Verify Email Address</a
+                  >
+                </td>
+              </tr>
+            </table>
+            <div class="divider"></div>
+            <p
+              class="text"
+              style="text-align: center; font-size: 14px; color: #6b7280"
+            >
+              Or enter this verification code:
+            </p>
+            <div class="code-box">
+              <div class="code">{{verificationCode}}</div>
+            </div>
+            <p
+              class="text"
+              style="font-size: 13px; color: #9ca3af; text-align: center"
+            >
+              This verification link will expire in 15 minutes.
+            </p>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td class="footer">
+            <p class="footer-brand">TogetherToGo</p>
+            <p class="footer-text">
+              Connecting communities through meaningful collaboration
+            </p>
+            <p class="footer-text" style="margin-top: 16px; font-size: 13px">
+              If you didn't create an account, you can safely ignore this email.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

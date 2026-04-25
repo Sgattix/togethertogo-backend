@@ -26,8 +26,8 @@ export class TwoFactorAuthService {
   ): Promise<GenerateTwoFactorSetupResponse> {
     // Generate secret
     const secret = speakeasy.generateSecret({
-      name: `CivicSprint (${userEmail})`,
-      issuer: 'CivicSprint',
+      name: `TogetherToGo (${userEmail})`,
+      issuer: 'TogetherToGo',
       length: 32, // Longer secret for better security
     });
 

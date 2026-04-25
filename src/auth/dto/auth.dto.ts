@@ -85,6 +85,10 @@ export class UpdateProfileDto {
   @IsOptional()
   @IsString()
   skills?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  emailVisible?: boolean;
 }
 
 export class ChangeEmailDto {

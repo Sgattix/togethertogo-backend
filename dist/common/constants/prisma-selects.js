@@ -5,6 +5,7 @@ exports.VOLUNTEER_SELECT = {
     id: true,
     name: true,
     email: true,
+    emailVisible: true,
     skills: true,
     reputation: true,
     completedTasks: true,
@@ -19,6 +20,8 @@ exports.VOLUNTEER_PROFILE_SELECT = {
 };
 exports.VOLUNTEER_STATS_SELECT = {
     id: true,
+    email: true,
+    emailVisible: true,
     skills: true,
     reputation: true,
     completedTasks: true,

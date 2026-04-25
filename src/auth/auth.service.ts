@@ -75,32 +75,31 @@ export class AuthService {
         role: requestedRole as any,
         verificationToken,
         verificationTokenExpiresAt,
+        
       },
     });
 
     if (requestedRole === 'VOLUNTEER') {
-      // Check if a volunteer with this email already exists
       const existingVolunteer = await this.prisma.volunteer.findUnique({
         where: { email: data.email },
       });
 
       if (existingVolunteer) {
-        // Link the existing volunteer to the new user
         await this.prisma.volunteer.update({
           where: { id: existingVolunteer.id },
           data: {
             userId: newUser.id,
-            name: data.name, // Update name in case it changed
+            name: data.name,
           },
         });
       } else {
-        // Create a new volunteer record
         await this.prisma.volunteer.create({
           data: {
             userId: newUser.id,
             name: data.name,
             email: data.email,
             skills: data.skills || null,
+            emailVisible: false,
           },
         });
       }
@@ -388,7 +387,6 @@ export class AuthService {
     });
 
     if (!user) {
-      // Return success even if user not found (security best practice)
       return {
         message:
           'If an account with that email exists, a password reset link has been sent.',
@@ -475,7 +473,6 @@ export class AuthService {
     };
   }
 
-  // Profile Management Methods
 
   async changeEmail(
     userId: string,

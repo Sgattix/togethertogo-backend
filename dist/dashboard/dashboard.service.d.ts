@@ -8,11 +8,6 @@ export declare class DashboardService {
             totalUsers: any;
             activeUsers: any;
             suspendedUsers: any;
-            byRole: {
-                admin: any;
-                coordinator: any;
-                volunteer: any;
-            };
         };
         recentActivity: {
             sprintsCreated: any;

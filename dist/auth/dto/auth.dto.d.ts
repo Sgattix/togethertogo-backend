@@ -37,6 +37,7 @@ export declare class AuthResponseDto {
 export declare class UpdateProfileDto {
     name?: string;
     skills?: string;
+    emailVisible?: boolean;
 }
 export declare class ChangeEmailDto {
     newEmail: string;

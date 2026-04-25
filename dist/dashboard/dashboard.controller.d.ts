@@ -9,11 +9,6 @@ export declare class DashboardController {
             totalUsers: any;
             activeUsers: any;
             suspendedUsers: any;
-            byRole: {
-                admin: any;
-                coordinator: any;
-                volunteer: any;
-            };
         };
         recentActivity: {
             sprintsCreated: any;

@@ -50,12 +50,7 @@ let DashboardService = class DashboardService {
         });
     }
     async getUserStats() {
-        const [totalUsers, adminCount, coordinatorCount, volunteerCount] = await Promise.all([
-            this.prisma.user.count(),
-            this.prisma.user.count({ where: { role: 'ADMIN' } }),
-            this.prisma.user.count({ where: { role: 'COORDINATOR' } }),
-            this.prisma.user.count({ where: { role: 'VOLUNTEER' } }),
-        ]);
+        const totalUsers = await this.prisma.user.count();
         const activeUsers = await this.prisma.user.count({
             where: { accountStatus: 'ACTIVE' },
         });
@@ -66,11 +61,6 @@ let DashboardService = class DashboardService {
             totalUsers,
             activeUsers,
             suspendedUsers,
-            byRole: {
-                admin: adminCount,
-                coordinator: coordinatorCount,
-                volunteer: volunteerCount,
-            },
         };
     }
     async getRecentActivity() {

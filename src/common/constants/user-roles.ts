@@ -23,12 +23,12 @@ export enum AccountStatus {
 /**
  * Valid role values
  */
-export const VALID_ROLES = Object.values(UserRole) as const;
+export const VALID_ROLES = Object.values(UserRole);
 
 /**
  * Valid account status values
  */
-export const VALID_ACCOUNT_STATUSES = Object.values(AccountStatus) as const;
+export const VALID_ACCOUNT_STATUSES = Object.values(AccountStatus);
 
 /**
  * Type for user role

@@ -302,53 +302,55 @@ exports.Prisma.ModelName = {
  * Create the Client
  */
 const config = {
-  "generator": {
-    "name": "client",
-    "provider": {
-      "fromEnvVar": null,
-      "value": "prisma-client-js"
+  generator: {
+    name: 'client',
+    provider: {
+      fromEnvVar: null,
+      value: 'prisma-client-js',
     },
-    "output": {
-      "value": "C:\\Users\\Sgattix\\Desktop\\PROGRAMMING-PROJECTS\\Various Sites\\CivicSprint\\civicsprint-backend\\generated\\prisma",
-      "fromEnvVar": null
+    output: {
+      value:
+        'C:\\Users\\Sgattix\\Desktop\\PROGRAMMING-PROJECTS\\Various Sites\\TogetherToGo\\civicsprint-backend\\generated\\prisma',
+      fromEnvVar: null,
     },
-    "config": {
-      "engineType": "library"
+    config: {
+      engineType: 'library',
     },
-    "binaryTargets": [
+    binaryTargets: [
       {
-        "fromEnvVar": null,
-        "value": "windows",
-        "native": true
-      }
+        fromEnvVar: null,
+        value: 'windows',
+        native: true,
+      },
     ],
-    "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Sgattix\\Desktop\\PROGRAMMING-PROJECTS\\Various Sites\\CivicSprint\\civicsprint-backend\\prisma\\schema.prisma",
-    "isCustomOutput": true
+    previewFeatures: [],
+    sourceFilePath:
+      'C:\\Users\\Sgattix\\Desktop\\PROGRAMMING-PROJECTS\\Various Sites\\TogetherToGo\\civicsprint-backend\\prisma\\schema.prisma',
+    isCustomOutput: true,
   },
-  "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../.env"
+  relativeEnvPaths: {
+    rootEnvPath: null,
+    schemaEnvPath: '../../.env',
   },
-  "relativePath": "../../prisma",
-  "clientVersion": "6.19.2",
-  "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
-  "datasourceNames": [
-    "db"
-  ],
-  "activeProvider": "mysql",
-  "inlineDatasources": {
-    "db": {
-      "url": {
-        "fromEnvVar": "DATABASE_URL",
-        "value": null
-      }
-    }
+  relativePath: '../../prisma',
+  clientVersion: '6.19.2',
+  engineVersion: 'c2990dca591cba766e3b7ef5d9e8a84796e47ab7',
+  datasourceNames: ['db'],
+  activeProvider: 'mysql',
+  inlineDatasources: {
+    db: {
+      url: {
+        fromEnvVar: 'DATABASE_URL',
+        value: null,
+      },
+    },
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                         String        @id @default(cuid())\n  email                      String        @unique\n  password                   String\n  name                       String\n  role                       UserRole      @default(VOLUNTEER)\n  accountStatus              AccountStatus @default(ACTIVE)\n  deletedAt                  DateTime?\n  emailVerified              Boolean       @default(false)\n  verificationToken          String?       @unique\n  verificationTokenExpiresAt DateTime?\n  resetToken                 String?       @unique\n  resetTokenExpiresAt        DateTime?\n  emailChangeToken           String?       @unique\n  emailChangeTokenExpiresAt  DateTime?\n  pendingEmail               String?\n  createdAt                  DateTime      @default(now())\n  updatedAt                  DateTime      @updatedAt\n\n  sprints   Sprint[]          @relation(\"CoordinatedSprints\")\n  sessions  Session[]\n  approvals ApprovalHistory[]\n}\n\nenum UserRole {\n  ADMIN\n  COORDINATOR\n  VOLUNTEER\n}\n\nenum AccountStatus {\n  ACTIVE\n  SUSPENDED\n  DELETED\n}\n\nmodel Session {\n  id        String   @id @default(cuid())\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n}\n\nmodel Sprint {\n  id                  String   @id @default(cuid())\n  title               String\n  description         String?\n  location            String\n  status              String   @default(\"active\")\n  authorizationStatus String   @default(\"reported\")\n  coordinatorId       String\n  coordinator         User     @relation(\"CoordinatedSprints\", fields: [coordinatorId], references: [id])\n  startDate           DateTime\n  endDate             DateTime\n  progress            Int      @default(0)\n  createdAt           DateTime @default(now())\n  updatedAt           DateTime @updatedAt\n\n  tasks           Task[]\n  approvalHistory ApprovalHistory[]\n\n  @@index([coordinatorId])\n}\n\nmodel Task {\n  id          String   @id @default(cuid())\n  title       String\n  description String?\n  status      String   @default(\"pending\")\n  priority    String   @default(\"medium\")\n  dueDate     DateTime\n  assignedTo  String?\n  sprintId    String\n  sprint      Sprint   @relation(fields: [sprintId], references: [id], onDelete: Cascade)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  comments   TaskComment[]\n  activities TaskActivity[]\n\n  @@index([sprintId])\n  @@index([assignedTo])\n}\n\nmodel TaskComment {\n  id        String   @id @default(cuid())\n  taskId    String\n  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)\n  userId    String\n  userName  String\n  userRole  String\n  content   String   @db.Text\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([taskId])\n  @@index([userId])\n}\n\nmodel TaskActivity {\n  id          String   @id @default(cuid())\n  taskId      String\n  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)\n  userId      String?\n  userName    String?\n  action      String\n  fieldName   String?\n  oldValue    String?  @db.Text\n  newValue    String?  @db.Text\n  description String   @db.Text\n  createdAt   DateTime @default(now())\n\n  @@index([taskId])\n  @@index([userId])\n}\n\nmodel Volunteer {\n  id             String   @id @default(cuid())\n  name           String\n  email          String   @unique\n  skills         String?\n  reputation     Int      @default(0)\n  completedTasks Int      @default(0)\n  joinedDate     DateTime @default(now())\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n}\n\nmodel ApprovalHistory {\n  id              String    @id @default(cuid())\n  sprintId        String\n  sprint          Sprint    @relation(fields: [sprintId], references: [id], onDelete: Cascade)\n  requestedBy     String\n  requestedByUser User      @relation(fields: [requestedBy], references: [id])\n  status          String    @default(\"pending\")\n  notes           String?\n  approvedAt      DateTime?\n  createdAt       DateTime  @default(now())\n  updatedAt       DateTime  @updatedAt\n\n  @@index([sprintId])\n  @@index([requestedBy])\n}\n",
-  "inlineSchemaHash": "4fbb5bf2cb90907fdcf92de1b85f0293c8b621a1167d36fb1757264a51860769",
-  "copyEngine": true
-}
+  inlineSchema:
+    'generator client {\n  provider = "prisma-client-js"\n  output   = "../generated/prisma"\n}\n\ndatasource db {\n  provider = "mysql"\n  url      = env("DATABASE_URL")\n}\n\nmodel User {\n  id                         String        @id @default(cuid())\n  email                      String        @unique\n  password                   String\n  name                       String\n  role                       UserRole      @default(VOLUNTEER)\n  accountStatus              AccountStatus @default(ACTIVE)\n  deletedAt                  DateTime?\n  emailVerified              Boolean       @default(false)\n  verificationToken          String?       @unique\n  verificationTokenExpiresAt DateTime?\n  resetToken                 String?       @unique\n  resetTokenExpiresAt        DateTime?\n  emailChangeToken           String?       @unique\n  emailChangeTokenExpiresAt  DateTime?\n  pendingEmail               String?\n  createdAt                  DateTime      @default(now())\n  updatedAt                  DateTime      @updatedAt\n\n  sprints   Sprint[]          @relation("CoordinatedSprints")\n  sessions  Session[]\n  approvals ApprovalHistory[]\n}\n\nenum UserRole {\n  ADMIN\n  COORDINATOR\n  VOLUNTEER\n}\n\nenum AccountStatus {\n  ACTIVE\n  SUSPENDED\n  DELETED\n}\n\nmodel Session {\n  id        String   @id @default(cuid())\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n\n  @@index([userId])\n}\n\nmodel Sprint {\n  id                  String   @id @default(cuid())\n  title               String\n  description         String?\n  location            String\n  status              String   @default("active")\n  authorizationStatus String   @default("reported")\n  coordinatorId       String\n  coordinator         User     @relation("CoordinatedSprints", fields: [coordinatorId], references: [id])\n  startDate           DateTime\n  endDate             DateTime\n  progress            Int      @default(0)\n  createdAt           DateTime @default(now())\n  updatedAt           DateTime @updatedAt\n\n  tasks           Task[]\n  approvalHistory ApprovalHistory[]\n\n  @@index([coordinatorId])\n}\n\nmodel Task {\n  id          String   @id @default(cuid())\n  title       String\n  description String?\n  status      String   @default("pending")\n  priority    String   @default("medium")\n  dueDate     DateTime\n  assignedTo  String?\n  sprintId    String\n  sprint      Sprint   @relation(fields: [sprintId], references: [id], onDelete: Cascade)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  comments   TaskComment[]\n  activities TaskActivity[]\n\n  @@index([sprintId])\n  @@index([assignedTo])\n}\n\nmodel TaskComment {\n  id        String   @id @default(cuid())\n  taskId    String\n  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)\n  userId    String\n  userName  String\n  userRole  String\n  content   String   @db.Text\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([taskId])\n  @@index([userId])\n}\n\nmodel TaskActivity {\n  id          String   @id @default(cuid())\n  taskId      String\n  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)\n  userId      String?\n  userName    String?\n  action      String\n  fieldName   String?\n  oldValue    String?  @db.Text\n  newValue    String?  @db.Text\n  description String   @db.Text\n  createdAt   DateTime @default(now())\n\n  @@index([taskId])\n  @@index([userId])\n}\n\nmodel Volunteer {\n  id             String   @id @default(cuid())\n  name           String\n  email          String   @unique\n  skills         String?\n  reputation     Int      @default(0)\n  completedTasks Int      @default(0)\n  joinedDate     DateTime @default(now())\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n}\n\nmodel ApprovalHistory {\n  id              String    @id @default(cuid())\n  sprintId        String\n  sprint          Sprint    @relation(fields: [sprintId], references: [id], onDelete: Cascade)\n  requestedBy     String\n  requestedByUser User      @relation(fields: [requestedBy], references: [id])\n  status          String    @default("pending")\n  notes           String?\n  approvedAt      DateTime?\n  createdAt       DateTime  @default(now())\n  updatedAt       DateTime  @updatedAt\n\n  @@index([sprintId])\n  @@index([requestedBy])\n}\n',
+  inlineSchemaHash:
+    '4fbb5bf2cb90907fdcf92de1b85f0293c8b621a1167d36fb1757264a51860769',
+  copyEngine: true,
+};
 config.dirname = '/'
 
 config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"accountStatus\",\"kind\":\"enum\",\"type\":\"AccountStatus\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"verificationToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verificationTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"resetToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resetTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"emailChangeToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailChangeTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"pendingEmail\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sprints\",\"kind\":\"object\",\"type\":\"Sprint\",\"relationName\":\"CoordinatedSprints\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"approvals\",\"kind\":\"object\",\"type\":\"ApprovalHistory\",\"relationName\":\"ApprovalHistoryToUser\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Sprint\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorizationStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coordinatorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"coordinator\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CoordinatedSprints\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"progress\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tasks\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"SprintToTask\"},{\"name\":\"approvalHistory\",\"kind\":\"object\",\"type\":\"ApprovalHistory\",\"relationName\":\"ApprovalHistoryToSprint\"}],\"dbName\":null},\"Task\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"assignedTo\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sprintId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sprint\",\"kind\":\"object\",\"type\":\"Sprint\",\"relationName\":\"SprintToTask\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"TaskComment\",\"relationName\":\"TaskToTaskComment\"},{\"name\":\"activities\",\"kind\":\"object\",\"type\":\"TaskActivity\",\"relationName\":\"TaskToTaskActivity\"}],\"dbName\":null},\"TaskComment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"taskId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"task\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"TaskToTaskComment\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userRole\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"TaskActivity\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"taskId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"task\",\"kind\":\"object\",\"type\":\"Task\",\"relationName\":\"TaskToTaskActivity\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fieldName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"oldValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"newValue\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Volunteer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"skills\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reputation\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"completedTasks\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"joinedDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"ApprovalHistory\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sprintId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sprint\",\"kind\":\"object\",\"type\":\"Sprint\",\"relationName\":\"ApprovalHistoryToSprint\"},{\"name\":\"requestedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestedByUser\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ApprovalHistoryToUser\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"approvedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")

@@ -365,8 +365,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.4.2
-   * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
+   * Prisma Client JS version: 7.5.0
+   * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
    */
   export type PrismaVersion = {
     client: string
@@ -2691,6 +2691,11 @@ export namespace Prisma {
      * Skip the first `n` Users.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
@@ -3798,6 +3803,11 @@ export namespace Prisma {
      * Skip the first `n` Sessions.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sessions.
+     */
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
   }
 
@@ -4859,6 +4869,11 @@ export namespace Prisma {
      * Skip the first `n` Sprints.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Sprints.
+     */
     distinct?: SprintScalarFieldEnum | SprintScalarFieldEnum[]
   }
 
@@ -5901,6 +5916,11 @@ export namespace Prisma {
      * Skip the first `n` Tasks.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tasks.
+     */
     distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
@@ -6911,6 +6931,11 @@ export namespace Prisma {
      * Skip the first `n` TaskComments.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TaskComments.
+     */
     distinct?: TaskCommentScalarFieldEnum | TaskCommentScalarFieldEnum[]
   }
 
@@ -7895,6 +7920,11 @@ export namespace Prisma {
      * Skip the first `n` TaskActivities.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TaskActivities.
+     */
     distinct?: TaskActivityScalarFieldEnum | TaskActivityScalarFieldEnum[]
   }
 
@@ -8090,6 +8120,7 @@ export namespace Prisma {
     skills: string | null
     reputation: number | null
     completedTasks: number | null
+    emailVisible: boolean | null
     joinedDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8103,6 +8134,7 @@ export namespace Prisma {
     skills: string | null
     reputation: number | null
     completedTasks: number | null
+    emailVisible: boolean | null
     joinedDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8116,6 +8148,7 @@ export namespace Prisma {
     skills: number
     reputation: number
     completedTasks: number
+    emailVisible: number
     joinedDate: number
     createdAt: number
     updatedAt: number
@@ -8141,6 +8174,7 @@ export namespace Prisma {
     skills?: true
     reputation?: true
     completedTasks?: true
+    emailVisible?: true
     joinedDate?: true
     createdAt?: true
     updatedAt?: true
@@ -8154,6 +8188,7 @@ export namespace Prisma {
     skills?: true
     reputation?: true
     completedTasks?: true
+    emailVisible?: true
     joinedDate?: true
     createdAt?: true
     updatedAt?: true
@@ -8167,6 +8202,7 @@ export namespace Prisma {
     skills?: true
     reputation?: true
     completedTasks?: true
+    emailVisible?: true
     joinedDate?: true
     createdAt?: true
     updatedAt?: true
@@ -8267,6 +8303,7 @@ export namespace Prisma {
     skills: string | null
     reputation: number
     completedTasks: number
+    emailVisible: boolean
     joinedDate: Date
     createdAt: Date
     updatedAt: Date
@@ -8299,6 +8336,7 @@ export namespace Prisma {
     skills?: boolean
     reputation?: boolean
     completedTasks?: boolean
+    emailVisible?: boolean
     joinedDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8315,12 +8353,13 @@ export namespace Prisma {
     skills?: boolean
     reputation?: boolean
     completedTasks?: boolean
+    emailVisible?: boolean
     joinedDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type VolunteerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "userId" | "skills" | "reputation" | "completedTasks" | "joinedDate" | "createdAt" | "updatedAt", ExtArgs["result"]["volunteer"]>
+  export type VolunteerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "userId" | "skills" | "reputation" | "completedTasks" | "emailVisible" | "joinedDate" | "createdAt" | "updatedAt", ExtArgs["result"]["volunteer"]>
   export type VolunteerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Volunteer$userArgs<ExtArgs>
   }
@@ -8338,6 +8377,7 @@ export namespace Prisma {
       skills: string | null
       reputation: number
       completedTasks: number
+      emailVisible: boolean
       joinedDate: Date
       createdAt: Date
       updatedAt: Date
@@ -8718,6 +8758,7 @@ export namespace Prisma {
     readonly skills: FieldRef<"Volunteer", 'String'>
     readonly reputation: FieldRef<"Volunteer", 'Int'>
     readonly completedTasks: FieldRef<"Volunteer", 'Int'>
+    readonly emailVisible: FieldRef<"Volunteer", 'Boolean'>
     readonly joinedDate: FieldRef<"Volunteer", 'DateTime'>
     readonly createdAt: FieldRef<"Volunteer", 'DateTime'>
     readonly updatedAt: FieldRef<"Volunteer", 'DateTime'>
@@ -8917,6 +8958,11 @@ export namespace Prisma {
      * Skip the first `n` Volunteers.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Volunteers.
+     */
     distinct?: VolunteerScalarFieldEnum | VolunteerScalarFieldEnum[]
   }
 
@@ -9902,6 +9948,11 @@ export namespace Prisma {
      * Skip the first `n` ApprovalHistories.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalHistories.
+     */
     distinct?: ApprovalHistoryScalarFieldEnum | ApprovalHistoryScalarFieldEnum[]
   }
 
@@ -10897,6 +10948,11 @@ export namespace Prisma {
      * Skip the first `n` Notifications.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
@@ -11859,6 +11915,11 @@ export namespace Prisma {
      * Skip the first `n` TwoFactorAuths.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TwoFactorAuths.
+     */
     distinct?: TwoFactorAuthScalarFieldEnum | TwoFactorAuthScalarFieldEnum[]
   }
 
@@ -12149,6 +12210,7 @@ export namespace Prisma {
     skills: 'skills',
     reputation: 'reputation',
     completedTasks: 'completedTasks',
+    emailVisible: 'emailVisible',
     joinedDate: 'joinedDate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -12962,6 +13024,7 @@ export namespace Prisma {
     skills?: StringNullableFilter<"Volunteer"> | string | null
     reputation?: IntFilter<"Volunteer"> | number
     completedTasks?: IntFilter<"Volunteer"> | number
+    emailVisible?: BoolFilter<"Volunteer"> | boolean
     joinedDate?: DateTimeFilter<"Volunteer"> | Date | string
     createdAt?: DateTimeFilter<"Volunteer"> | Date | string
     updatedAt?: DateTimeFilter<"Volunteer"> | Date | string
@@ -12976,6 +13039,7 @@ export namespace Prisma {
     skills?: SortOrderInput | SortOrder
     reputation?: SortOrder
     completedTasks?: SortOrder
+    emailVisible?: SortOrder
     joinedDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12994,6 +13058,7 @@ export namespace Prisma {
     skills?: StringNullableFilter<"Volunteer"> | string | null
     reputation?: IntFilter<"Volunteer"> | number
     completedTasks?: IntFilter<"Volunteer"> | number
+    emailVisible?: BoolFilter<"Volunteer"> | boolean
     joinedDate?: DateTimeFilter<"Volunteer"> | Date | string
     createdAt?: DateTimeFilter<"Volunteer"> | Date | string
     updatedAt?: DateTimeFilter<"Volunteer"> | Date | string
@@ -13008,6 +13073,7 @@ export namespace Prisma {
     skills?: SortOrderInput | SortOrder
     reputation?: SortOrder
     completedTasks?: SortOrder
+    emailVisible?: SortOrder
     joinedDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13029,6 +13095,7 @@ export namespace Prisma {
     skills?: StringNullableWithAggregatesFilter<"Volunteer"> | string | null
     reputation?: IntWithAggregatesFilter<"Volunteer"> | number
     completedTasks?: IntWithAggregatesFilter<"Volunteer"> | number
+    emailVisible?: BoolWithAggregatesFilter<"Volunteer"> | boolean
     joinedDate?: DateTimeWithAggregatesFilter<"Volunteer"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Volunteer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Volunteer"> | Date | string
@@ -13902,6 +13969,7 @@ export namespace Prisma {
     skills?: string | null
     reputation?: number
     completedTasks?: number
+    emailVisible?: boolean
     joinedDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13916,6 +13984,7 @@ export namespace Prisma {
     skills?: string | null
     reputation?: number
     completedTasks?: number
+    emailVisible?: boolean
     joinedDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13928,6 +13997,7 @@ export namespace Prisma {
     skills?: NullableStringFieldUpdateOperationsInput | string | null
     reputation?: IntFieldUpdateOperationsInput | number
     completedTasks?: IntFieldUpdateOperationsInput | number
+    emailVisible?: BoolFieldUpdateOperationsInput | boolean
     joinedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13942,6 +14012,7 @@ export namespace Prisma {
     skills?: NullableStringFieldUpdateOperationsInput | string | null
     reputation?: IntFieldUpdateOperationsInput | number
     completedTasks?: IntFieldUpdateOperationsInput | number
+    emailVisible?: BoolFieldUpdateOperationsInput | boolean
     joinedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13955,6 +14026,7 @@ export namespace Prisma {
     skills?: string | null
     reputation?: number
     completedTasks?: number
+    emailVisible?: boolean
     joinedDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13967,6 +14039,7 @@ export namespace Prisma {
     skills?: NullableStringFieldUpdateOperationsInput | string | null
     reputation?: IntFieldUpdateOperationsInput | number
     completedTasks?: IntFieldUpdateOperationsInput | number
+    emailVisible?: BoolFieldUpdateOperationsInput | boolean
     joinedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13980,6 +14053,7 @@ export namespace Prisma {
     skills?: NullableStringFieldUpdateOperationsInput | string | null
     reputation?: IntFieldUpdateOperationsInput | number
     completedTasks?: IntFieldUpdateOperationsInput | number
+    emailVisible?: BoolFieldUpdateOperationsInput | boolean
     joinedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14841,6 +14915,7 @@ export namespace Prisma {
     skills?: SortOrder
     reputation?: SortOrder
     completedTasks?: SortOrder
+    emailVisible?: SortOrder
     joinedDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14859,6 +14934,7 @@ export namespace Prisma {
     skills?: SortOrder
     reputation?: SortOrder
     completedTasks?: SortOrder
+    emailVisible?: SortOrder
     joinedDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -14872,6 +14948,7 @@ export namespace Prisma {
     skills?: SortOrder
     reputation?: SortOrder
     completedTasks?: SortOrder
+    emailVisible?: SortOrder
     joinedDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15947,6 +16024,7 @@ export namespace Prisma {
     skills?: string | null
     reputation?: number
     completedTasks?: number
+    emailVisible?: boolean
     joinedDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15959,6 +16037,7 @@ export namespace Prisma {
     skills?: string | null
     reputation?: number
     completedTasks?: number
+    emailVisible?: boolean
     joinedDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -16141,6 +16220,7 @@ export namespace Prisma {
     skills?: NullableStringFieldUpdateOperationsInput | string | null
     reputation?: IntFieldUpdateOperationsInput | number
     completedTasks?: IntFieldUpdateOperationsInput | number
+    emailVisible?: BoolFieldUpdateOperationsInput | boolean
     joinedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16153,6 +16233,7 @@ export namespace Prisma {
     skills?: NullableStringFieldUpdateOperationsInput | string | null
     reputation?: IntFieldUpdateOperationsInput | number
     completedTasks?: IntFieldUpdateOperationsInput | number
+    emailVisible?: BoolFieldUpdateOperationsInput | boolean
     joinedDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -3,7 +3,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UpdateProfileDto } from '../auth/dto/auth.dto';
 import {
   VOLUNTEER_SELECT,
-  VOLUNTEER_PROFILE_SELECT,
   VOLUNTEER_STATS_SELECT,
   USER_SELECT,
 } from '../common/constants/prisma-selects';
@@ -72,14 +71,10 @@ export class VolunteersService {
       throwNotFound('User', userId);
     }
 
-    // Get volunteer-specific data if user is a volunteer
-    let volunteer = null;
-    if (user.role === 'VOLUNTEER') {
-      volunteer = await this.prisma.volunteer.findUnique({
-        where: { email: user.email },
-        select: VOLUNTEER_STATS_SELECT,
-      });
-    }
+    const volunteer = await this.prisma.volunteer.findUnique({
+      where: { email: user.email },
+      select: VOLUNTEER_STATS_SELECT,
+    });
 
     return {
       ...user,
@@ -90,32 +85,24 @@ export class VolunteersService {
   async updateProfile(userId: string, data: UpdateProfileDto) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
+      select: USER_SELECT,
     });
 
     if (!user) {
       throwNotFound('User', userId);
     }
 
-    // Update user
-    const updatedUser = await this.prisma.user.update({
-      where: { id: userId },
+    const volunteer = await this.prisma.volunteer.update({
+      where: { email: user.email },
+      select: VOLUNTEER_STATS_SELECT,
       data: {
-        name: data.name ?? user.name,
+        ...data,
       },
-      select: USER_SELECT,
     });
 
-    // Update volunteer if user is a volunteer
-    if (user.role === 'VOLUNTEER' && data.skills !== undefined) {
-      await this.prisma.volunteer.update({
-        where: { email: user.email },
-        data: {
-          name: data.name ?? user.name,
-          skills: data.skills,
-        },
-      });
-    }
-
-    return updatedUser;
+    return {
+      ...user,
+      volunteer,
+    };
   }
 }

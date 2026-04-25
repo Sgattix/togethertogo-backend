@@ -68,13 +68,10 @@ let VolunteersService = class VolunteersService {
         if (!user) {
             (0, error_utils_1.throwNotFound)('User', userId);
         }
-        let volunteer = null;
-        if (user.role === 'VOLUNTEER') {
-            volunteer = await this.prisma.volunteer.findUnique({
-                where: { email: user.email },
-                select: prisma_selects_1.VOLUNTEER_STATS_SELECT,
-            });
-        }
+        const volunteer = await this.prisma.volunteer.findUnique({
+            where: { email: user.email },
+            select: prisma_selects_1.VOLUNTEER_STATS_SELECT,
+        });
         return {
             ...user,
             volunteer,
@@ -83,27 +80,22 @@ let VolunteersService = class VolunteersService {
     async updateProfile(userId, data) {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
+            select: prisma_selects_1.USER_SELECT,
         });
         if (!user) {
             (0, error_utils_1.throwNotFound)('User', userId);
         }
-        const updatedUser = await this.prisma.user.update({
-            where: { id: userId },
+        const volunteer = await this.prisma.volunteer.update({
+            where: { email: user.email },
+            select: prisma_selects_1.VOLUNTEER_STATS_SELECT,
             data: {
-                name: data.name ?? user.name,
+                ...data,
             },
-            select: prisma_selects_1.USER_SELECT,
         });
-        if (user.role === 'VOLUNTEER' && data.skills !== undefined) {
-            await this.prisma.volunteer.update({
-                where: { email: user.email },
-                data: {
-                    name: data.name ?? user.name,
-                    skills: data.skills,
-                },
-            });
-        }
-        return updatedUser;
+        return {
+            ...user,
+            volunteer,
+        };
     }
 };
 exports.VolunteersService = VolunteersService;

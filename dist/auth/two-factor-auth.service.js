@@ -24,8 +24,8 @@ let TwoFactorAuthService = TwoFactorAuthService_1 = class TwoFactorAuthService {
     }
     async generateTwoFactorSetup(userId, userEmail) {
         const secret = speakeasy.generateSecret({
-            name: `CivicSprint (${userEmail})`,
-            issuer: 'CivicSprint',
+            name: `TogetherToGo (${userEmail})`,
+            issuer: 'TogetherToGo',
             length: 32,
         });
         const qrCode = await QRCode.toDataURL(secret.otpauth_url);

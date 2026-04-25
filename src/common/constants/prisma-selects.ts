@@ -7,6 +7,7 @@ export const VOLUNTEER_SELECT = {
   id: true,
   name: true,
   email: true,
+  emailVisible: true,
   skills: true,
   reputation: true,
   completedTasks: true,
@@ -23,6 +24,8 @@ export const VOLUNTEER_PROFILE_SELECT = {
 
 export const VOLUNTEER_STATS_SELECT = {
   id: true,
+  email: true,
+  emailVisible: true,
   skills: true,
   reputation: true,
   completedTasks: true,

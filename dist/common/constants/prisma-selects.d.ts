@@ -2,6 +2,7 @@ export declare const VOLUNTEER_SELECT: {
     readonly id: true;
     readonly name: true;
     readonly email: true;
+    readonly emailVisible: true;
     readonly skills: true;
     readonly reputation: true;
     readonly completedTasks: true;
@@ -16,6 +17,8 @@ export declare const VOLUNTEER_PROFILE_SELECT: {
 };
 export declare const VOLUNTEER_STATS_SELECT: {
     readonly id: true;
+    readonly email: true;
+    readonly emailVisible: true;
     readonly skills: true;
     readonly reputation: true;
     readonly completedTasks: true;

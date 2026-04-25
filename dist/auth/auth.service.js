@@ -79,6 +79,7 @@ let AuthService = AuthService_1 = class AuthService {
                         name: data.name,
                         email: data.email,
                         skills: data.skills || null,
+                        emailVisible: false,
                     },
                 });
             }
